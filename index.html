@@ -47,17 +47,22 @@
         var scene = null;
         var createDefaultEngine = function() { return new BABYLON.Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true }); };
         var delayCreateScene = function () {
+            
             var scene = new BABYLON.Scene(engine);
         
-            // The first parameter can be used to specify which mesh to import. Here we import all meshes
-            BABYLON.SceneLoader.Append("https://raw.githubusercontent.com/jococoj/Babylon-JS-example/master/", "fblike1.glb", scene, function (newMeshes) {
-                scene.createDefaultCameraOrLight(true);
-                scene.activeCamera.attachControl(canvas, false);
-                scene.activeCamera.alpha += Math.PI; // camera +180°
-            });
+            BABYLON.SceneLoader.ImportMesh(
+                "",
+                "https://raw.githubusercontent.com/jococoj/Babylon-JS-example/master/",
+                "fblike1.glb",
+                scene,
+                function (meshes) {          
+                    scene.createDefaultCameraOrLight(true, true, true);
+                    scene.createDefaultEnvironment();
+                }
+            );
         
             return scene;
-        }
+        };
         
         engine = createDefaultEngine();
         if (!engine) throw 'engine should not be null.';
